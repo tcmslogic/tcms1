@@ -14,7 +14,7 @@
 	
 <?php 
 	$i=0;
-	
+	//
 	foreach($events as $event)
 	{
 		if($event->patient_id!="" || $event->patient_id!=null){
