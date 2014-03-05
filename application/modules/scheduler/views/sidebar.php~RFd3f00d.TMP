@@ -1,0 +1,232 @@
+<?php
+
+
+
+include 'classes/calendar.php';
+ 
+$month = isset($_GET['m']) ? $_GET['m'] : NULL;
+$year  = isset($_GET['y']) ? $_GET['y'] : NULL;
+ 
+$calendar = Calendar::factory($month, $year);
+ 
+$event1 = $calendar->event()
+    ->condition('timestamp', strtotime(date('F').' 21, '.date('Y')))
+    ->title('Hello All')
+    ->output('<a href="http://google.com">Going to Google</a>');
+     
+$event2 = $calendar->event()
+    ->condition('timestamp', strtotime(date('F').' 21, '.date('Y')))
+    ->title('Something Awesome')
+    ->output('<a href="http://coreyworrell.com">My Portfolio</a><br />It\'s pretty cool in there.');
+ 
+$calendar->standard('today')
+    ->standard('prev-next')
+    ->standard('holidays')
+    ->attach($event1)
+    ->attach($event2);
+?>
+
+<script type="text/javascript">
+function setStyle(id,style,value)
+{
+    id.style[style] = value;
+}
+function opacity(el,opacity)
+{
+        setStyle(el,"filter:","alpha(opacity="+opacity+")");
+        setStyle(el,"-moz-opacity",opacity/100);
+        setStyle(el,"-khtml-opacity",opacity/100);
+        setStyle(el,"opacity",opacity/100);
+}
+function calendar(days)
+{ 						
+		var string = days;
+		var days = new Array();
+		days = string.split(",");		
+//		alert(days);
+		
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth();
+        var year = date.getYear();
+        if(year<=200)
+        {
+                year += 1900;
+        }
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        days_in_month = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+        if(year%4 == 0 && year!=1900)
+        {
+                days_in_month[1]=29;
+        }
+        total = days_in_month[month];
+        var date_today = months[month]+' '+year;
+        beg_j = date;
+        beg_j.setDate(1);
+        if(beg_j.getDate()==2)
+        {
+                beg_j=setDate(0);
+        }
+        beg_j = beg_j.getDay();
+        document.write('<table class="cal_calendar" onload="opacity(document.getElementById(\'cal_body\'),20);"><tbody id="cal_body"><tr><th colspan="7">'+date_today+'</th></tr>');
+        document.write('<tr class="cal_d_weeks"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr><tr>');
+        week = 0;
+		
+        for(i=1;i<=beg_j;i++)
+        {
+                document.write('<td class="cal_days_bef_aft">'+(days_in_month[month-1]-beg_j+i)+'</td>');
+                week++;
+        }
+        for(i=1;i<=total;i++)
+        { //var date_cal = days;
+		//var s_day = i;
+                if(week==0)
+                {
+                        document.write('<tr>');
+                }
+                if(day==i)
+                {
+                        document.write('<td class="cal_today">'+i+'</td>');
+                }
+                else
+                {	
+					days.indexOf(i);
+//					alert(s_day);
+					//if(s_day == "19"){ alert('19'); } 
+					/*for(var k=0;k<=days.length;k++){
+						if(s_day.equals(days[k])){
+							alert('s');
+						}
+					}*/
+//					alert(days.indexOf(i));
+//					if(date_cal.indexOf(i)!="-1" ){ document.write('<td><b>'+i+'</b></td>'); }					
+					document.write('<td>'+i+'</td>'); 
+                }
+                week++;
+                if(week==7)
+                {
+                        document.write('</tr>');
+                        week=0;
+                }
+        }
+        for(i=1;week!=0;i++)
+        {
+                document.write('<td class="cal_days_bef_aft">'+i+'</td>');
+                week++;
+                if(week==7)
+                {
+                        document.write('</tr>');
+                        week=0;
+                }
+        }
+        document.write('</tbody></table>');
+        //opacity(document.getElementById('cal_body'),70);
+        return true;
+}
+</script>
+<!-------------------Next Month Calendar------------------->
+<script type="text/javascript">
+function setStyle_next(id,style,value)
+{
+    id.style[style] = value;
+}
+function opacity_next(el,opacity)
+{
+        setStyle(el,"filter:","alpha(opacity="+opacity+")");
+        setStyle(el,"-moz-opacity",opacity/100);
+        setStyle(el,"-khtml-opacity",opacity/100);
+        setStyle(el,"opacity",opacity/100);
+}
+function calendar_next()
+{ 
+        var date = new Date();
+		alert(date);
+        var day = date.getDate();
+        var month = date.getMonth();
+        var year = date.getYear();
+        if(year<=200)
+        {
+                year += 1900;
+        }
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        days_in_month = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+        if(year%4 == 0 && year!=1900)
+        {
+                days_in_month[1]=29;
+        }
+        total = days_in_month[month];
+        var date_today = months[month]+' '+year;
+        beg_j = date;
+        beg_j.setDate(1);
+        if(beg_j.getDate()==2)
+        {
+                beg_j=setDate(0);
+        }
+        beg_j = beg_j.getDay();
+        document.write('<table class="cal_calendar" onload="opacity(document.getElementById(\'cal_body\'),20);"><tbody id="cal_body"><tr><th colspan="7">'+date_today+'</th></tr>');
+        document.write('<tr class="cal_d_weeks"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr><tr>');
+        week = 0;
+        for(i=1;i<=beg_j;i++)
+        {
+                document.write('<td class="cal_days_bef_aft">'+(days_in_month[month-1]-beg_j+i)+'</td>');
+                week++;
+        }
+        for(i=1;i<=total;i++)
+        {
+                if(week==0)
+                {
+                        document.write('<tr>');
+                }
+                if(day==i)
+                {
+                        document.write('<td class="cal_today">'+i+'</td>');
+                }
+                else
+                {
+                        document.write('<td>'+i+'</td>');
+                }
+                week++;
+                if(week==7)
+                {
+                        document.write('</tr>');
+                        week=0;
+                }
+        }
+        for(i=1;week!=0;i++)
+        {
+                document.write('<td class="cal_days_bef_aft">'+i+'</td>');
+                week++;
+                if(week==7)
+                {
+                        document.write('</tr>');
+                        week=0;
+                }
+        }
+        document.write('</tbody></table>');
+        //opacity(document.getElementById('cal_body'),70);
+        return true;
+}
+</script>
+<!-------------------End of Next Month Ca------------------>
+<div class="leftpanel-cal">
+			
+		<div class="float-left">
+        <?php $days = $this->mdl_scheduler->getHolidaysNW(date('m'),date('Y')); ?>
+			<script type="text/javascript">
+            calendar('<?php echo $days; ?>');
+        </script>
+		</div>
+        
+        <div class="float-left">
+			<script type="text/javascript">
+            //calendar_next();
+        </script>
+		</div>
+        
+        <div class="float-left">
+			<script type="text/javascript">
+            //calendar();
+        </script>
+		</div>
+
+</div>
