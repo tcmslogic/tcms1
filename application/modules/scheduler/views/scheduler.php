@@ -14,6 +14,7 @@
 	
 <?php 
 	$i=0;
+	$k=0;
 	
 	foreach($events as $event)
 	{
